@@ -18,12 +18,10 @@ module.exports = class userController {
       return res.status(400).json({ error: "Email inválido. Deve conter @" });
     } // else if
     else {
-      // Cria e adiciona novo usuário
-      return res.status(201).json({ message: "Usuário criado com sucesso" });
 
       // Construção da query INSERT
 
-      const query = `INSERT INTO usuario(cpf,password,email,name) VALUES(
+      const query = `INSERT INTO usuario (cpf,password,email,name) VALUES(
       '${cpf}',
       '${password}',
       '${email}',
@@ -35,7 +33,7 @@ module.exports = class userController {
         connect.query(query, function (err) {
           if (err) {
             console.log(err);
-            console.log(eer.code);
+            console.log(err.code);
             if (err.code === "ER_DUP_ENTRY") {
               return res
                 .status(400)

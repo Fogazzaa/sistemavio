@@ -37,9 +37,14 @@ document
       .then((data) => {
         // executa a resposta de sucesso  - retorna ao usuario final
         // exibe alerta com o nome do usuario com o nome que acabou de ser cadastrado (front)
-        alert("Usuário cadastrado com sucesso: " + data.user.name);
+        // alert("Usuário cadastrado com sucesso: " + data.user.name);
+
+        alert(data.message);
+
+        // alert("Usuário Cadastrado: " + data.user);
+
         // exibe o log no terminal
-        console.log("Usuário Cadastrado: ", data.user);
+        console.log("Usuário Cadastrado: " + data.user);
 
         // limpa os campos do formulario, após o sucesso do cadastro
         document.getElementById("formulario-registro").reset()
