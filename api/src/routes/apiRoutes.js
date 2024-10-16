@@ -10,7 +10,7 @@ router.get("/user", userController.getAllUsers);
 
 router.post("/org", orgController.createOrg);
 router.get("/org", orgController.getAllOrgs);
-//router.put("/org/:id_organizador", orgController.updateOrg);
-//router.delete("/org/:id_organizador", orgController.deleteOrg);
+router.put("/org", orgController.updateOrg);
+router.delete("/org/:id_organizador", orgController.deleteOrg);
 
 module.exports = router;
