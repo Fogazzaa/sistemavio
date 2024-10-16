@@ -1,5 +1,5 @@
-let orgs = [];
-let id_organizador = 0;
+// let orgs = [];
+// let id_organizador = 0;
 
 const connect = require("../db/connect");
 
@@ -60,8 +60,23 @@ module.exports = class orgController {
   } // CreateUser
 
   static async getAllOrgs(req, res) {
-    return res.status(200).json({ message: "Obtendo todos os usuários", orgs });
-  }
+    const query = `SELECT * FROM organizador`;
+
+    try {
+      connect.query(query, function (err, results) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: "Erro Interno do Servidor" });
+        }
+        return res
+          .status(200)
+          .json({ message: "Lista de Organizador", orgs: results });
+      });
+    } catch (error) {
+      console.error("Erro ao executar consulta:", error);
+      res.status(500).json({ error: "Erro Interno de Servidor" });
+    } // catch (error)
+  } //getAllOrgrs
 
   static async updateOrg(req, res) {
     // desestrutura e recupera os dados enviados via corpo da requisição
