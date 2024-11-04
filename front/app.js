@@ -7,8 +7,7 @@ document
   .getElementById("formulario-registro")
   .addEventListener("submit", createUser);
 
-document
-.addEventListener("DOMContentLoaded", getAllUsers);
+document.addEventListener("DOMContentLoaded", getAllUsers);
 
 function createUser(event) {
   // adiciona o ouvinte do evento 'submit'
@@ -20,7 +19,7 @@ function createUser(event) {
 
   // requisição http para o endpoint de cadastro de usuário
 
-  fetch("http://10.89.240.105:5000/api/v1/user", {
+  fetch("http://10.89.240.3:5000/api/v1/user", {
     // realiza uma chamada HTTP para o servidor (a rota definida)
     method: "POST",
     headers: {
@@ -64,7 +63,7 @@ function createUser(event) {
 } // --- function createUser
 
 function getAllUsers() {
-  fetch("http://10.89.240.105:5000/api/v1/user/", {
+  fetch("http://10.89.240.3:5000/api/v1/user/", {
     method: "GET",
     headers: {
       "Content-Type": "application/JSON",
