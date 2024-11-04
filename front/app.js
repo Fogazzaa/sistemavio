@@ -91,3 +91,19 @@ function getAllUsers() {
       console.error("Erro ", error.message);
     });
 }
+
+function getAllUsersTable() {
+  fetch("http://10.89.240.3:5000/api/v1/user/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/JSON",
+    },
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return response.json().then((err) => {
+      throw new Error(err.error);
+    });
+  });
+}
