@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", getAllUsers);
 
 document.addEventListener("DOMContentLoaded", getAllUsersTable);
 
+document.addEventListener("DOMContentLoaded", getAllOrgsTable);
+
 function createUser(event) {
   // adiciona o ouvinte do evento 'submit'
   event.preventDefault(); // previne o comportamento padrão do formulário, ou seja, impede que ele seja enviado e recarregue a página
@@ -121,11 +123,65 @@ function getAllUsersTable() {
         const tdName = document.createElement("td");
         tdName.textContent = usuario.name;
         tr.appendChild(tdName);
+
+        const tdCpf = document.createElement("td");
+        tdCpf.textContent = usuario.cpf;
+        tr.appendChild(tdCpf);
+
+        const tdEmail = document.createElement("td");
+        tdEmail.textContent = usuario.email;
+        tr.appendChild(tdEmail);
+
         userList.appendChild(tr);
       });
     })
     .catch((error) => {
       alert("Erro ao obter usuários: " + error.message);
       console.error("Erro: ", error.message);
+    });
+}
+
+function getAllOrgsTable() {
+  fetch("http://10.89.240.3:5000/api/v1/organizador/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/JSON",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json().then((err) => {
+        throw new Error(err.error);
+      });
     })
+    .then((data) => {
+      const orgList = document.getElementById("org-list-tabela");
+      // Limpa a lista antes de Adicionar novos itens
+      orgList.innerHTML = "";
+      // Verifica se há usuario retornados e os adiciona a tabela
+      data.organizadores.forEach((organizador) => {
+        // Cria uma nova linha
+        const tr = document.createElement("tr");
+        // Cria células para nome, CPF e E-mail
+        const tdNome = document.createElement("td");
+        tdNome.textContent = organizador.nome;
+        tr.appendChild(tdNome);
+
+        const tdTelefone = document.createElement("td");
+        tdTelefone.textContent = organizador.telefone;
+        tr.appendChild(tdTelefone);
+
+        const tdEmail = document.createElement("td");
+        tdEmail.textContent = organizador.email;
+        tr.appendChild(tdEmail);
+
+        orgList.appendChild(tr);
+      });
+    })
+    .catch((error) => {
+      alert("Erro ao obter usuários: " + error.message);
+      console.error("Erro: ", error.message);
+    });
 }
