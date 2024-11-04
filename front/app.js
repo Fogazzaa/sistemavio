@@ -9,6 +9,8 @@ document
 
 document.addEventListener("DOMContentLoaded", getAllUsers);
 
+document.addEventListener("DOMContentLoaded", getAllUsersTable);
+
 function createUser(event) {
   // adiciona o ouvinte do evento 'submit'
   event.preventDefault(); // previne o comportamento padrão do formulário, ou seja, impede que ele seja enviado e recarregue a página
@@ -98,12 +100,32 @@ function getAllUsersTable() {
     headers: {
       "Content-Type": "application/JSON",
     },
-  }).then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-    return response.json().then((err) => {
-      throw new Error(err.error);
-    });
-  });
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json().then((err) => {
+        throw new Error(err.error);
+      });
+    })
+    .then((data) => {
+      const userList = document.getElementById("user-list-tabela");
+      // Limpa a lista antes de Adicionar novos itens
+      userList.innerHTML = "";
+      // Verifica se há usuario retornados e os adiciona a tabela
+      data.users.forEach((usuario) => {
+        // Cria uma nova linha
+        const tr = document.createElement("tr");
+        // Cria células para nome, CPF e E-mail
+        const tdName = document.createElement("td");
+        tdName.textContent = usuario.name;
+        tr.appendChild(tdName);
+        userList.appendChild(tr);
+      });
+    })
+    .catch((error) => {
+      alert("Erro ao obter usuários: " + error.message);
+      console.error("Erro: ", error.message);
+    })
 }
