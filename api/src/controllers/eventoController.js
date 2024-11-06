@@ -34,7 +34,7 @@ module.exports = class eventoController {
           console.log(err);
           return res.status(500).json({ error: "Erro ao buscar eventos" });
         }
-        return res.status(200).json({message:"Eventos listados com sucesso", events:results})
+        return res.status(200).json({message:"Eventos listados com sucesso", eventos:results})
       });
     } catch (error) {
       console.log("Erro ao executar a querry: ", error);
