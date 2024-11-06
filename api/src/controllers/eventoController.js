@@ -60,7 +60,7 @@ module.exports = class eventoController {
           return res.status(500).json({ error: "Erro ao criar evento!" });
         }
         if(results.affectedRows === 0){
-          return res.status(404).json({message: "Usuário não encontrado"});
+          return res.status(404).json({message: "Evento não encontrado"});
         }
         return res.status(201).json({ message: "Evento atualizado com sucesso: "});
       });
@@ -81,11 +81,11 @@ module.exports = class eventoController {
           return res.status(500).json({ error: "Erro Interno do Servidor" });
         }
         if (results.affectedRows === 0) {
-          return res.status(404).json({ error: "Usuário não Encontrado" });
+          return res.status(404).json({ error: "Evento não Encontrado" });
         }
         return res
           .status(200)
-          .json({ message: "Usuário Excluido com Sucesso" });
+          .json({ message: "Evento Excluido com Sucesso" });
       });
     } catch (error) {
       console.error(error);
