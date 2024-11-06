@@ -24,5 +24,18 @@ module.exports = class eventoController {
       console.log("Erro ao executar consulta: ", error);
       return res.status(500).json({ error: "Erro interno do servido" });
     }
-  }// fim do 'createEvento'
+  } // fim do 'createEvento'
+
+  static async getAllEventos(req, res) {
+    const query = `SELECT * FROM evento`;
+    try {
+      connect.querry(querry, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Erro ao buscar eventos" });
+        }
+        return res.status(200).json({message:"Eventos listados com sucesso", events:results})
+      });
+    } catch (error) {}
+  }
 };
