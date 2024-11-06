@@ -54,6 +54,7 @@ module.exports = class eventoController {
     const values = [nome, descricao, data_hora, local, fk_id_organizador, id_evento];
     try {
       connect.query(query, values, (err, results) => {
+        console.log("Resultados: ", results);
         if (err) {
           console.log(err);
           return res.status(500).json({ error: "Erro ao criar evento!" });
@@ -61,7 +62,7 @@ module.exports = class eventoController {
         if(results.affectedRows === 0){
           return res.status(404).json({message: "Usuário não encontrado"});
         }
-        return res.status(201).json({ message: "Evento atualizado com sucesso: ", event : results });
+        return res.status(201).json({ message: "Evento atualizado com sucesso: "});
       });
     } catch (error) {
       console.log("Erro ao executar consulta: ", error);

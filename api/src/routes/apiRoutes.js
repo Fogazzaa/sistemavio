@@ -16,5 +16,6 @@ router.delete("/org/:id_organizador", orgController.deleteOrg);
 
 router.post("/evento", eventoController.createEvento);
 router.get("/evento", eventoController.getAllEventos);
+router.put("/evento", eventoController.updateEvento);
 
 module.exports = router;
