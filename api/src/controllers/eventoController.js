@@ -20,6 +20,9 @@ module.exports = class eventoController {
         }
         return res.status(201).json({ message: "Evento criado com sucesso!" });
       });
-    } catch (error) {}
-  }
+    } catch (error) {
+      console.log("Erro ao executar consulta: ", error);
+      return res.status(500).json({ error: "Erro interno do servido" });
+    }
+  }// fim do 'createEvento'
 };
