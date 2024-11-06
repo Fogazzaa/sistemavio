@@ -11,6 +11,10 @@ module.exports = class ingController {
       return res.status(400).json({
         error: "Preco inválido. Deve conter dígitos numéricos",
       });
+    } else if (isNaN(fk_id_evento)) {
+      return res.status(400).json({
+        error: "ID inválido. Deve conter dígitos numéricos",
+      });
     }
     const query = ` INSERT INTO ingresso (preco,tipo,fk_id_evento) VALUES (?,?,?)`;
     const values = [preco, tipo, fk_id_evento];
@@ -28,7 +32,7 @@ module.exports = class ingController {
       console.log("Erro ao executar consulta: ", error);
       return res.status(500).json({ error: "Erro interno do servido" });
     }
-  }// fim do 'createIng'
+  } // fim do 'createIng'
 
   static async getAllIngs(req, res) {
     const query = `SELECT * FROM ingresso`;
@@ -38,11 +42,14 @@ module.exports = class ingController {
           console.log(err);
           return res.status(500).json({ error: "Erro ao buscar ingressos" });
         }
-        return res.status(200).json({message:"Ingressos listados com sucesso", ingressos:results})
+        return res.status(200).json({
+          message: "Ingressos listados com sucesso",
+          ingressos: results,
+        });
       });
     } catch (error) {
       console.log("Erro ao executar a querry: ", error);
-      return res.status(500).json({error: "Erro interno do Servidor"})
+      return res.status(500).json({ error: "Erro interno do Servidor" });
     }
   } // fim do 'getAllIngs'
 
@@ -53,7 +60,20 @@ module.exports = class ingController {
       return res
         .status(400)
         .json({ error: "Todos os campos devem ser preenchidos" });
+    } else if (isNaN(preco)) {
+      return res.status(400).json({
+        error: "Preco inválido. Deve conter dígitos numéricos",
+      });
+    } else if (isNaN(fk_id_evento)) {
+      return res.status(400).json({
+        error: "ID inválido. Deve conter dígitos numéricos",
+      });
     }
+    else if (isNaN(id_ingresso)) {
+        return res.status(400).json({
+          error: "ID inválido. Deve conter dígitos numéricos",
+        });
+      }
     const query = ` UPDATE ingresso SET preco = ?, tipo = ?, fk_id_evento=? WHERE id_ingresso = ?`;
     const values = [preco, tipo, fk_id_evento, id_ingresso];
     try {
@@ -63,10 +83,12 @@ module.exports = class ingController {
           console.log(err);
           return res.status(500).json({ error: "Erro ao criar ingresso!" });
         }
-        if(results.affectedRows === 0){
-          return res.status(404).json({message: "Ingresso não encontrado"});
+        if (results.affectedRows === 0) {
+          return res.status(404).json({ message: "Ingresso não encontrado" });
         }
-        return res.status(201).json({ message: "Ingresso atualizado com sucesso: "});
+        return res
+          .status(201)
+          .json({ message: "Ingresso atualizado com sucesso: " });
       });
     } catch (error) {
       console.log("Erro ao executar consulta: ", error);
@@ -94,6 +116,6 @@ module.exports = class ingController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Erro Interno do Servidor" });
-    } 
+    }
   }
 };
