@@ -43,22 +43,25 @@ module.exports = class eventoController {
   } // fim do 'getAllEventos'
 
   static async updateEvento(req, res) {
-    const { nome, descricao, data_hora, local, fk_id_organizador } = req.body;
+    const { id_evento, nome, descricao, data_hora, local, fk_id_organizador } = req.body;
 
-    if (!nome || !descricao || !data_hora || !local || !fk_id_organizador) {
+    if (!id_evento || !nome || !descricao || !data_hora || !local || !fk_id_organizador) {
       return res
         .status(400)
         .json({ error: "Todos os campos devem ser preenchidos" });
     }
-    const query = ` INSERT INTO evento (nome,descricao,data_hora,local,fk_id_organizador) VALUES (?,?,?,?,?)`;
-    const values = [nome, descricao, data_hora, local, fk_id_organizador];
+    const query = ` UPDATE evento SET nome = ?,descricao = ?,data_hora = ?,local = ?, fk_id_organizador = ? WHERE id_evento = ?`;
+    const values = [nome, descricao, data_hora, local, fk_id_organizador, id_evento];
     try {
-      connect.query(query, values, (err) => {
+      connect.query(query, values, (err, results) => {
         if (err) {
           console.log(err);
           return res.status(500).json({ error: "Erro ao criar evento!" });
         }
-        return res.status(201).json({ message: "Evento criado com sucesso!" });
+        if(results.affectedRows === 0){
+          return res.status(404).json({message: "Usuário não encontrado"});
+        }
+        return res.status(201).json({ message: "Evento atualizado com sucesso: ", event : results });
       });
     } catch (error) {
       console.log("Erro ao executar consulta: ", error);
