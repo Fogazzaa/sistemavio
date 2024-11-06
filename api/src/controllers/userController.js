@@ -120,14 +120,16 @@ module.exports = class userController {
           console.error(err);
           return res.status(500).json({ error: "Erro Interno do Servidor" });
         }
-        if(results.affectedRows === 0){
-          return res.status(404).json({error:"Usuário não Encontrado"})
+        if (results.affectedRows === 0) {
+          return res.status(404).json({ error: "Usuário não Encontrado" });
         }
-        return res.status(200).json({message:"Usuário Excluido com Sucesso"})
+        return res
+          .status(200)
+          .json({ message: "Usuário Excluido com Sucesso" });
       });
     } catch (error) {
-      console.error(error)
-      return res.status(500).json({error: "Erro Interno do Servidor"})
+      console.error(error);
+      return res.status(500).json({ error: "Erro Interno do Servidor" });
     }
   }
 };
