@@ -185,8 +185,8 @@ module.exports = class eventoController {
 
   static async getEventosPorData7Dias(req, res) {
     const dataFiltro = new Date(req.params.data).toISOString().split("T");
-    const dataLimite = new Date(req.params.data);  // Converte a data recebida em um objeto Date
-    dataLimite.setDate(dataLimite.getDate() + 7);  // Adiciona os dias
+    const dataLimite = new Date(req.params.data);  
+    dataLimite.setDate(dataLimite.getDate() + 7);  
     console.log("Data Fornecida:", dataFiltro[0], "\n");
     console.log("Data Limite:", dataLimite.toISOString().split("T")[0], "\n");
     const query = `SELECT * FROM evento`;
