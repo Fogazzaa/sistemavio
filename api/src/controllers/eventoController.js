@@ -187,8 +187,8 @@ module.exports = class eventoController {
     const dataFiltro = new Date(req.params.data).toISOString().split("T");
     const dataLimite = new Date(req.params.data);  // Converte a data recebida em um objeto Date
     dataLimite.setDate(dataLimite.getDate() + 7);  // Adiciona os dias
-    console.log("Data Fornecida:", dataFiltro, "\n");
-    console.log("Data Limite:", dataLimite, "\n");
+    console.log("Data Fornecida:", dataFiltro[0], "\n");
+    console.log("Data Limite:", dataLimite.toISOString().split("T")[0], "\n");
     const query = `SELECT * FROM evento`;
     try {
       connect.query(query, (err, results) => {
@@ -202,11 +202,11 @@ module.exports = class eventoController {
             new Date(evento.data_hora).toISOString().split("T")[0] >= dataFiltro[0] && new Date(evento.data_hora).toISOString().split("T")[0] < dataLimite.toISOString().split("T")[0]
         );
 
-        console.log(eventosSelecionados);
+        console.log(eventosSelecionados, '\n\n------------------------------------------\n\n');
 
         return res
           .status(200)
-          .json({ message: "Eventos: ", eventosSelecionados });
+          .json({eventosSelecionados });
       });
     } catch (error) {
       console.log("Erro ao executar a querry: ", error);
