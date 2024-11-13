@@ -112,34 +112,45 @@ module.exports = class eventoController {
 
   static async getEventosPorData(req, res) {
     const query = `SELECT * FROM evento`;
-    let datasEventos;
     try {
       connect.query(query, (err, results) => {
         if (err) {
           console.log(err);
           return res.status(500).json({ error: "Erro ao buscar eventos" });
         }
-        const dataEvento1 = new Date(results[0].data_hora)
-        const dia1 = dataEvento1.getDate();
-        const mes1 = dataEvento1.getMonth()+1;
-        const ano1 = dataEvento1.getFullYear();
-        console.log(' Data Evento 1:', dia1 + '/' + mes1 + '/' + ano1, "\n")
-        const dataEvento2 = new Date(results[1].data_hora)
-        const dia2 = dataEvento2.getDate();
-        const mes2 = dataEvento2.getMonth()+1;
-        const ano2 = dataEvento2.getFullYear();
-        console.log(' Data Evento 2:', dia2 + '/' + mes2 + '/' + ano2, "\n")
-        const dataEvento3 = new Date(results[2].data_hora)
-        const dia3 = dataEvento3.getDate();
-        const mes3 = dataEvento3.getMonth()+1;
-        const ano3 = dataEvento3.getFullYear();
-        console.log(' Data Evento 3:', dia3 + '/' + mes3 + '/' + ano3, "\n")
+        const dataEvento = new Date(results[0].data_hora);
+        const dia = dataEvento.getDate();
+        const mes = dataEvento.getMonth() + 1;
+        const ano = dataEvento.getFullYear();
+        console.log(" Data Evento 1:", dia + "/" + mes + "/" + ano, "\n");
         const now = new Date();
-        const eventosPassados = results.filter(evento => new Date(evento.data_hora) < now);
-        const eventosFuturos = results.filter(evento => new Date(evento.data_hora) >= now);
+        const eventosPassados = results.filter(
+          (evento) => new Date(evento.data_hora) < now
+        );
+        const eventosFuturos = results.filter(
+          (evento) => new Date(evento.data_hora) >= now
+        );
+
+        const diferencaMs = eventosFuturos[0].data_hora.getTime() - now.getTime();
+        const dias = Math.floor(diferencaMs / (1000 * 60 * 60 * 24))
+        const horas = Math.floor(diferencaMs % (1000 * 60 * 60 * 24)/(1000*60*60))
+        const minutos = Math.floor(diferencaMs % (1000 * 60 * 60 * 24)%(1000*60*60)/(1000*60))
+        const segundos = Math.floor(diferencaMs % (1000 * 60 * 60 * 24)%(1000*60*60)%(1000*60)/(1000))
+
+        console.log(" Diferença em MS:", diferencaMs, '\n')
+        console.log(" Diferença em Minutos:", (((dias * 24) + horas) * 60), '\n')
+        console.log(" Diferença em Horas:", ((dias * 24) + horas), '\n')
+        console.log(" Diferença em Dias:", dias, '\n')
+        console.log(" Diferença em Total:", dias, "dias,", horas, "horas,", minutos, "minutos e", segundos, "segundos", '\n')
+
+        const dataFiltro = new Date('2024-12-15').toISOString().split("T");
+        const eventosDia = results.filter((evento) => new Date(evento.data_hora).toISOString().split("T")[0] === dataFiltro[0])
+        console.log(" Data Filtro:", dataFiltro, '\n')
+        console.log(" Eventos do Dia:", eventosDia, '\n')
+
         return res
           .status(200)
-          .json({ message: "Eventos: ", eventosFuturos, eventosPassados});
+          .json({ message: "Eventos: ", eventosFuturos, eventosPassados });
       });
     } catch (error) {
       console.log("Erro ao executar a querry: ", error);
